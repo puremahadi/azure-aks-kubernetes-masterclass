@@ -150,3 +150,31 @@ kubectl delete svc/my-helloworld-rs-service
 # Verify if Service got deleted
 kubectl get svc
 ```
+
+# WITH LOADBALANCER DEMO
+vagrant@ubuntu:~/rep-rs$ cat replicaset-demo.yaml
+---
+apiVersion: apps/v1
+kind: ReplicaSet
+metadata:
+  name: hello-world-rs
+  labels:
+    app: hello-world
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: hello-world
+  template:
+    metadata:
+      labels:
+        app: hello-world
+    spec:
+      containers:
+        - name: hello-world-nginx-app
+          image: puremahadi/nginx:latest-release
+          command: ["/bin/sh", "-c"]
+          args:
+            - |
+              echo "<h1>Hello from Pod: $HOSTNAME</h1>" > /usr/share/nginx/html/index.html
+              nginx -g "daemon off;"
