@@ -23,7 +23,7 @@
 - **Automatic upgrade:** Enabled with patch (recommended)
 - **Node security channel type:** Node Image (LEAVE TO DEFAULT)
   - **Security channel scheduler:** Every week on Sunday (recommended)
-- **Authentication and Authorization:** 	Local accounts with Kubernetes RBAC    
+- **Authentication and Authorization:** 	Local accounts with Kubernetes RBAC
 ### Node Pools
 - In Nodepools, **Update node pool**
   - **Node pool name:** agentpool (LEAVE TO DEFAULT)
@@ -71,6 +71,18 @@
 ## Step-03: Cloud Shell - Configure kubectl to connect to AKS Cluster
 - Go to https://shell.azure.com
 ```t
+সমাধান ১: সার্ভিস প্রিন্সিপাল (Service Principal) ব্যবহার করা [সবচেয়ে প্রফেশনাল ও স্থায়ী]
+এই পদ্ধতিতে একটি সিক্রেট কি (Secret Key) বা পাসওয়ার্ড তৈরি করা হয়, যা দিয়ে ব্রাউজার বা কোনো ডিভাইস কোড ছাড়াই সরাসরি টার্মিনাল থেকে লগইন করা যায়। একবার এটি তৈরি করে রাখলে যেকোনো সময় এক লাইনে লগইন করতে পারবেন।
+ধাপসমূহ:
+১. আপনার ব্রাউজারের Cloud Shell (অথবা যেখানে Azure পোর্টাল ওপেন আছে) সেখানে গিয়ে নিচের কমান্ডটি রান করুন:
+bash
+az ad sp create-for-rbac --name "VagrantAKSKey" --role contributor --scopes /subscriptions/<subscriptions-id>
+
+৩. এবার আপনার উবুন্টু (Vagrant) টার্মিনালে চলে আসুন। উপরের তথ্যগুলো ব্যবহার করে নিচের এক লাইনের কমান্ডটি দিয়ে সরাসরি লগইন করে ফেলুন:
+bash
+az login --service-principal -u <আপনার_appId> -p <আপনার_password> --tenant <Tanant-ID>
+
+
 # Template
 az aks get-credentials --resource-group <Resource-Group-Name> --name <Cluster-Name>
 
